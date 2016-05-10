@@ -47,12 +47,10 @@ td {
 }
 
 .CodeMirror {
+	display: flex;
+  flex-direction: column;
 	flex-grow: 1;
   min-height: initial;
-}
-.CodeMirror-scroll {
-	 height: auto!important;
-	 overflow: visible;
 }
 
 .editor-toolbar {
