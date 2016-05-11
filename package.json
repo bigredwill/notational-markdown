@@ -10,8 +10,15 @@
     "./node_modules/simplemde/dist/simplemde.js": "SimpleMDE"
   },
   "scripts": {
-    "start": "electron main.js",
-    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
+    "build:js": "browserify app/app.js -t babelify -o public/js/bundle.js --debug --verbose",
+    "watch:js": "watch 'npm run build:js' app/",
+    "build:css": "lessc --clean-css styles/style.less > public/css/style.css",
+    "watch:css": "watch 'npm run build:css' styles/",
+
+    "build": "npm run build:js && npm run build:css",
+    "build:watch": "parallelshell 'npm start' 'npm run watch:js' 'npm run watch:css'",
+
+    "start": "electron main.js"
   },
   "author": "Will Simons",
   "license": "CC0-1.0",
@@ -31,6 +38,11 @@
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
-    "browserify-shim": "^3.8.12"
+    "browserify": "latest",
+    "browserify-shim": "^3.8.12",
+    "parallelshell": "latest",
+    "watch": "latest",
+    "less": "latest",
+    "less-plugin-clean-css": "latest"
   }
 }
