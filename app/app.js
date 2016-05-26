@@ -1,31 +1,37 @@
-// ES6 Component
-// Import React and ReactDOM
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Import Search Component
+import NoteStore from './controllers/NoteStore.js';
 import FilterableNoteTable from './components/FilterableNoteTable.component';
 import Editor from './components/Editor.component';
 
-var NOTES = [
-	{name: "Grocery List", tags: "food", date:"12/1/2015",rawContent:"#Raw", id:1},
-	{name: "Writing", tags: "practice", date:"12/2/2015",rawContent:"#Raw", id:2 },
-	{name: "Writing", tags: "practice", date:"12/3/2015",rawContent:"#Raw", id:3},
-	{name: "Stats161B Notes", tags: "classes", date:"12/3/2015",rawContent:"#Raw", id:4},
-	{name: "Writing", tags: "practice", date:"12/4/2015",rawContent:"#Raw", id:5},
-	{name: "Grocery List", tags: "food", date:"12/5/2015",rawContent:"#Raw", id:6},
-	{name: "Stats161B", tags: "classes", date:"12/5/2015",rawContent:"#Raw", id:7}
-];
+// var NOTES = [
+// 	{name: "Grocery List", tags: "food", date:"12/1/2015",rawContent:"#Raw", id:1},
+// 	{name: "Writing", tags: "practice", date:"12/2/2015",rawContent:"#Raw", id:2 },
+// 	{name: "Writing", tags: "practice", date:"12/3/2015",rawContent:"#Raw", id:3},
+// 	{name: "Stats161B Notes", tags: "classes", date:"12/3/2015",rawContent:"#Raw", id:4},
+// 	{name: "Writing", tags: "practice", date:"12/4/2015",rawContent:"#Raw", id:5},
+// 	{name: "Grocery List", tags: "food", date:"12/5/2015",rawContent:"#Raw", id:6},
+// 	{name: "Stats161B", tags: "classes", date:"12/5/2015",rawContent:"#Raw", id:7}
+// ];
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedNote: ''
+			selectedNote: '',
+			notes: NoteStore.getNotes()
 		};
 		this.onSelectNote = this.onSelectNote.bind(this);
 		this.onEditNote = this.onEditNote.bind(this);
-		this.notes = NOTES;
+	}
+
+	componentWillMount() {
+		NoteStore.subscribe(this)
+	}
+
+	componentWillUnmount() {
+		NoteStore.unsubscribe(this)
 	}
 
 	onSelectNote(note) {
@@ -34,15 +40,21 @@ class App extends React.Component {
 		});
 	}
 
-	onEditNote(note, value) {
-		var index = this.notes.findIndex((e,i) => {return e.id == note.id});
-		this.notes[index].rawContent = value;
+	onEditNote(note) {
+		NoteStore.editNote(note);
 	}
+
+	updateNotes() {
+		this.setState({
+			notes: NoteStore.getNotes()
+		});
+	}
+
 
 	render() {
 		return (
 			<div className="app-container">
-				<FilterableNoteTable notes={this.notes} onSelectNote={this.onSelectNote} selectedNote={this.state.selectedNote}/>
+				<FilterableNoteTable notes={this.state.notes} onSelectNote={this.onSelectNote} selectedNote={this.state.selectedNote}/>
 		    <Editor note={this.state.selectedNote} onEditNote={this.onEditNote}/>
 	    </div>
 		);

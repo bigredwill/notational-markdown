@@ -33,7 +33,8 @@ class Editor extends React.Component {
 
 	handleChange() {
 		if(this.props.note) {
-			this.props.onEditNote(this.props.note, this.refs.editorTextArea.value);
+			this.props.note.rawContent = this.refs.editorTextArea.value;
+			this.props.onEditNote(this.props.note);
 		}
 	}
 
