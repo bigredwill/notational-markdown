@@ -1,19 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import NoteStore from './controllers/NoteStore.js';
+import NoteStore from './store/NoteStore.js';
 import FilterableNoteTable from './components/FilterableNoteTable.component';
 import Editor from './components/Editor.component';
 
-// var NOTES = [
-// 	{name: "Grocery List", tags: "food", date:"12/1/2015",rawContent:"#Raw", id:1},
-// 	{name: "Writing", tags: "practice", date:"12/2/2015",rawContent:"#Raw", id:2 },
-// 	{name: "Writing", tags: "practice", date:"12/3/2015",rawContent:"#Raw", id:3},
-// 	{name: "Stats161B Notes", tags: "classes", date:"12/3/2015",rawContent:"#Raw", id:4},
-// 	{name: "Writing", tags: "practice", date:"12/4/2015",rawContent:"#Raw", id:5},
-// 	{name: "Grocery List", tags: "food", date:"12/5/2015",rawContent:"#Raw", id:6},
-// 	{name: "Stats161B", tags: "classes", date:"12/5/2015",rawContent:"#Raw", id:7}
-// ];
 
 class App extends React.Component {
 	constructor(props) {
@@ -24,14 +15,30 @@ class App extends React.Component {
 		};
 		this.onSelectNote = this.onSelectNote.bind(this);
 		this.onEditNote = this.onEditNote.bind(this);
+		
+	}
+
+	executionTimeRequire (name) { 
+		return require(name); 
 	}
 
 	componentWillMount() {
-		NoteStore.subscribe(this)
+		// var ipc = this.executionTimeRequire('ipc');
+
+		// ipc.on('focus-command', function() {
+		// 	//focus on search bar
+		// 	alert("focus!");
+		// });
+		// ipc.on('enter-command', function() {
+
+		// });
+
+
+		NoteStore.subscribe(this.updateNotes);
 	}
 
 	componentWillUnmount() {
-		NoteStore.unsubscribe(this)
+		NoteStore.unsubscribe(this.updateNotes);
 	}
 
 	onSelectNote(note) {
@@ -50,6 +57,9 @@ class App extends React.Component {
 		});
 	}
 
+	newNote() {
+		NoteStore.newNote();
+	}
 
 	render() {
 		return (
@@ -65,5 +75,5 @@ class App extends React.Component {
 // Render to ID content in the DOM
 ReactDOM.render(
     <App/>,
-    document.body
+    document.getElementById('app')
 );	

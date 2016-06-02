@@ -4,7 +4,9 @@
   "description": "Notational Velocity inspired Markdown",
   "main": "main.js",
   "browserify": {
-    "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browserify-shim": {
     "./node_modules/simplemde/dist/simplemde.js": "SimpleMDE"
@@ -14,10 +16,8 @@
     "watch:js": "watch 'npm run build:js' app/",
     "build:css": "lessc --clean-css styles/style.less > public/css/style.css",
     "watch:css": "watch 'npm run build:css' styles/",
-
     "build": "npm run build:js && npm run build:css",
     "build:watch": "parallelshell 'npm start' 'npm run watch:js' 'npm run watch:css'",
-
     "start": "electron main.js"
   },
   "author": "Will Simons",
@@ -28,13 +28,14 @@
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.2.0",
     "classnames": "^2.2.3",
-    "electron-prebuilt": "^0.37.8",
-    "electron-reload": "^0.2.0",
+    "electron-prebuilt": "^1.2.0",
+    "electron-reload": "^1.0.0",
     "jquery": "^2.2.3",
     "react": "^0.14.8",
     "react-autocomplete": "^1.0.0-rc2",
     "react-dom": "^0.14.7",
-    "simplemde": "^1.10.1"
+    "simplemde": "^1.10.1",
+    "sqlite": "^2.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
