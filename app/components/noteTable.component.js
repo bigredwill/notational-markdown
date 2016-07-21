@@ -22,7 +22,6 @@ class NoteTable extends React.Component {
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Tags</th>
 						<th>Date</th>
 					</tr>
 				</thead>
