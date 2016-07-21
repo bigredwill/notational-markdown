@@ -21,7 +21,7 @@ class FilterableNoteTable extends React.Component {
 	render() {
 		//Filter notes by filterText 
 		var filtered = this.props.notes.filter( (note) => {
-			if(note.name.toLowerCase().indexOf(this.state.filterText.toLowerCase()) === -1) 
+			if(note.name && note.name.toLowerCase().indexOf(this.state.filterText.toLowerCase()) === -1) 
 				return false;
 			else 
 				return true;
