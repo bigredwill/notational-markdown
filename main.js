@@ -7,18 +7,12 @@ require('electron-reload')(__dirname);
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow () {
+app.on('ready', () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-  globalShortcut.register('cmd+l', function () {
-    mainWindow.webContents.send('focus-command');
-  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -27,12 +21,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
-}
+});
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {

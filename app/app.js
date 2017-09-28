@@ -15,7 +15,14 @@ class App extends React.Component {
 		};
 		this.onSelectNote = this.onSelectNote.bind(this);
 		this.onEditNote = this.onEditNote.bind(this);
-		
+		this.onKeyPress = this.onKeyPress.bind(this);
+		this.updateNotes = this.updateNotes.bind(this);
+	}
+
+	onKeyPress(props) {
+		if(props.metaKey && props.key == "l") {
+			this.newNote();
+		} 
 	}
 
 	executionTimeRequire (name) { 
@@ -23,22 +30,16 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		// var ipc = this.executionTimeRequire('ipc');
-
-		// ipc.on('focus-command', function() {
-		// 	//focus on search bar
-		// 	alert("focus!");
-		// });
-		// ipc.on('enter-command', function() {
-
-		// });
-
-
 		NoteStore.subscribe(this.updateNotes);
+	}
+
+	componentDidMount() {
+		document.addEventListener('keydown', this.onKeyPress);
 	}
 
 	componentWillUnmount() {
 		NoteStore.unsubscribe(this.updateNotes);
+		document.removeEventListener('keydown', this.onKeyPress);
 	}
 
 	onSelectNote(note) {
@@ -58,12 +59,14 @@ class App extends React.Component {
 	}
 
 	newNote() {
-		NoteStore.newNote();
+		//create new note and select it for focus
+		let note = NoteStore.newNote("My New Note");
+		this.onSelectNote(note);
 	}
 
 	render() {
 		return (
-			<div className="app-container">
+			<div className="app-container" ref="app-container">
 				<FilterableNoteTable notes={this.state.notes} onSelectNote={this.onSelectNote} selectedNote={this.state.selectedNote}/>
 		    <Editor note={this.state.selectedNote} onEditNote={this.onEditNote}/>
 	    </div>
@@ -74,6 +77,6 @@ class App extends React.Component {
 
 // Render to ID content in the DOM
 ReactDOM.render(
-    <App/>,
+    <App />,
     document.getElementById('app')
 );	

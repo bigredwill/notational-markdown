@@ -1,6 +1,7 @@
-var EventEmitter = require('events').EventEmitter;
+import EventEmitter from 'events';
+import NotesFS from './NotesFS';
 
- 
+
 var emitter = new EventEmitter();
  
 var notes = [
@@ -14,6 +15,12 @@ var notes = [
 ];
  
 module.exports = {
+
+  getFiles: function() {
+    //check permissions
+    //iterateThroughDirectory
+  },
+
   getNotes: function() {
     //return copy of array (immutable)
     return notes.concat();
@@ -38,10 +45,11 @@ module.exports = {
       tags: "",
       date: Date.now(),
       rawContent: "# This is your new note.",
-      id: notes.length() + 1
+      id: notes.length + 1
     }
 
-    addNote(note);
+    this.addNote(note);
+    return note;
   },
 
   editNote: function(note) {

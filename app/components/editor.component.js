@@ -12,6 +12,7 @@ class Editor extends React.Component {
 	componentDidMount() {
 		//forceSync makes SimpleMDE log changes to original textarea (defined in render())
 		this.simplemde = new SimpleMDE({ 
+													autofocus: true,
 													element: this.refs.editorTextArea,
 													forceSync: true
 												});
@@ -22,6 +23,7 @@ class Editor extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		this.simplemde.value(this.props.note.rawContent);
+		this.simplemde.codemirror.focus();
 	}	
 
 	shouldComponentUpdate(nextProps, nextState) {
